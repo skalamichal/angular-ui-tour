@@ -124,7 +124,10 @@ To configure on a tour step declaration, use `tour-step-<option-name>="optionVal
 | nextPath         | string   | ""                        | If the next step is on a different page, set this to the path of the next page. If useUiRouter is true, this will be the state name.                        |
 | prevStep         | string   | ""                        | If the previous step is on a different page, set this to declare the name of the previous step.                                                             |
 | prevPath         | string   | ""                        | If the previous step is on a different page, set this to the path of the previous page. If useUiRouter is true, this will be the state name.                |
-| templateUrl      | string   | "tour-step-template.html" | Used as the template for the contents of the popup (see Angular UI Tooltip docs).                                                                           |
+| templateUrl      | string   | "tour-step-template.html" | Used as the template for the contents of the popup (see Angular UI Tooltip docs). |
+| tableColumn      | boolean  | false                     | Will select the table column, if the tour-step is added to th or td element in the table. Requires that td elements are placed within the tbody.                   |
+| margin           | number   | 0                         | Adds extra margin for selected element.                
+                                                                      |
 
 **Best practice:** always set the order so that the steps display in the expected order. Steps with the same order will 
 display consecutively, but the order among them is unpredictable. At first, use increments of 10 so that if you need to add steps
