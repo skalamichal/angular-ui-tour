@@ -276,7 +276,8 @@
             return handleEvent(step.config('onShow')).then(function () {
 
                 if (step.config('backdrop')) {
-                    uiTourBackdrop.createForElement(step.element, step.config('preventScrolling'), step.config('fixed'));
+                    uiTourBackdrop.createForElement(step.element, step.config('preventScrolling'), step.config('fixed'),
+                        step.config('tableColumn'), step.config('margin'));
                 }
 
             }).then(function () {

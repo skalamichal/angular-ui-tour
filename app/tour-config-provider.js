@@ -20,6 +20,8 @@
             scrollIntoView: true,
             useUiRouter: false,
             useHotkeys: false,
+            tableColumn: false,
+            margin: 0,
 
             onStart: null,
             onEnd: null,

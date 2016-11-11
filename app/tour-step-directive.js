@@ -51,7 +51,7 @@
                             }
                         },
                         events = 'onShow onShown onHide onHidden onNext onPrev'.split(' '),
-                        options = 'content title animation placement backdrop orphan popupDelay popupCloseDelay popupClass fixed preventScrolling scrollIntoView nextStep prevStep nextPath prevPath scrollOffset'.split(' '),
+                        options = 'content title animation placement backdrop orphan popupDelay popupCloseDelay popupClass fixed preventScrolling scrollIntoView nextStep prevStep nextPath prevPath scrollOffset tableColumn margin'.split(' '),
                         tooltipAttrs = 'animation appendToBody placement popupDelay popupCloseDelay'.split(' '),
                         orderWatch,
                         enabledWatch,

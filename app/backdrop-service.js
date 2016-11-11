@@ -62,15 +62,45 @@
             viewWindow.right.css('display', 'none');
         }
 
-        function positionBackdrop(element, isFixedElement) {
+        function positionBackdrop(elements, isFixedElement, margin) {
             var position,
                 viewportPosition,
                 bodyPosition,
                 vw = Math.max($document[0].documentElement.clientWidth, $window.innerWidth || 0),
-                vh = Math.max($document[0].documentElement.clientHeight, $window.innerHeight || 0);
+                vh = Math.max($document[0].documentElement.clientHeight, $window.innerHeight || 0),
+                defPosition = {top: 10000, left: 10000, right: 0, bottom: 0},
+                defViewportPosition = {top: 10000, left: 10000, right: 10000, bottom: 10000};
 
-            position = $uibPosition.offset(element);
-            viewportPosition = $uibPosition.viewportOffset(element);
+            position = elements.reduce(function(prev, current) {
+                var pos = $uibPosition.offset(current);
+                return prev ? {
+                    top: Math.min(prev.top, pos.top),
+                    left: Math.min(prev.left, pos.left),
+                    bottom: Math.max(prev.bottom, pos.top + pos.height),
+                    right: Math.max(prev.right, pos.left + pos.width)
+                } : pos;
+            }, defPosition);
+            viewportPosition = elements.reduce(function(prev, current) {
+                var pos = $uibPosition.viewportOffset(current);
+                return prev ? {
+                    top: Math.min(prev.top, pos.top),
+                    left: Math.min(prev.left, pos.left),
+                    bottom: Math.min(prev.bottom, pos.bottom),
+                    right: Math.min(prev.right, pos.right)
+                } : pos;
+            }, defViewportPosition);
+
+            // update position
+            position.width = position.right - position.left;
+            position.height = position.bottom - position.top;
+            // append the margin
+            position = {
+                top: position.top - margin,
+                left: position.left - margin,
+                width: position.width + margin * 2,
+                height: position.height + margin * 2
+            };
+
             bodyPosition = $uibPosition.offset($body);
 
             if (isFixedElement) {
@@ -106,17 +136,53 @@
             });
         }
 
+        /**
+         * Find the parent table element for any table cell, row element
+         * @param element
+         * @returns {*}
+         */
+        function getTable(element) {
+            var parent = element[0];
+            while(parent) {
+                parent = parent.parentNode;
+                if (parent.tagName.toLowerCase() === 'table') {
+                    return parent;
+                }
+            }
+            return undefined;
+        }
+
+        /**
+         * Return all td elements in current column, including the input element
+         * @param element
+         * @returns {Array.<*>}
+         */
+        function getTableColumn(element) {
+            var index = Array.prototype.indexOf.call(element[0].parentNode.children, element[0]),
+                table = getTable(element),
+                cellsInColumn, cells = [];
+
+            cellsInColumn = table.querySelectorAll(['tbody > tr > td:nth-child(', index+1, ')'].join(''));
+
+            for (index=0; index < cellsInColumn.length; index++) {
+                cells.push(angular.element(cellsInColumn[index]));
+            }
+
+            return [element].concat(cells);
+        }
+
         createBackdropComponent(viewWindow.top);
         createBackdropComponent(viewWindow.bottom);
         createBackdropComponent(viewWindow.left);
         createBackdropComponent(viewWindow.right);
 
-        service.createForElement = function (element, shouldPreventScrolling, isFixedElement) {
-            positionBackdrop(element, isFixedElement);
+        service.createForElement = function (element, shouldPreventScrolling, isFixedElement, isTableColumn, margin) {
+            var elements = isTableColumn ? getTableColumn(element) : [element];
+            positionBackdrop(elements, isFixedElement, margin);
             showBackdrop();
 
             onResize = function () {
-                positionBackdrop(element, isFixedElement);
+                positionBackdrop(element, isFixedElement, margin);
             };
             angular.element($window).on('resize', onResize);
 
