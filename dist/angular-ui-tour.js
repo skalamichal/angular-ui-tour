@@ -883,6 +883,21 @@
          */
         self.status = statuses;
 
+        /**
+         * @returns {Array} copy of tour steps
+         */
+        self.getSteps = function() {
+            return [].concat(stepList);
+        };
+
+        /**
+         * Return the number of tour steps
+         * @return {Number}
+         */
+        self.stepCount = function() {
+            return stepList.length;
+        };
+
         //------------------ end Public API ------------------
 
         //some debugging functions
