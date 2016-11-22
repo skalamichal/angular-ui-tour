@@ -182,6 +182,11 @@
                     if (isNext()) {
                         self.next();
                     }
+                    // UPDATED TO REFLECT OUR EOS TOUR POPUP TEMPLATE
+                    // WHICH ALLOWS CHAINING
+                    if (!isNext() && self.isNextTour) {
+                        self.continue();
+                    }
                 }
             });
 
@@ -277,7 +282,7 @@
 
                 if (step.config('backdrop')) {
                     uiTourBackdrop.createForElement(step.element, step.config('preventScrolling'), step.config('fixed'),
-                        step.config('tableColumn'), step.config('margin'));
+                        step.config('tableColumn'), step.config('margin'), step.config('orphan'), step.config('byName'));
                 }
 
             }).then(function () {

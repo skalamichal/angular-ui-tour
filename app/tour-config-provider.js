@@ -21,6 +21,7 @@
             useUiRouter: false,
             useHotkeys: false,
             tableColumn: false,
+            byName: false,
             margin: 0,
 
             onStart: null,
