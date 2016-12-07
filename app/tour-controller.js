@@ -171,7 +171,13 @@
                 combo: 'esc',
                 description: 'End tour',
                 callback: function () {
-                    self.end();
+                    // UPDATED TO REFLECT OUR EOS TOUR POPUP TEMPLATE
+                    if (self.customEnd) {
+                        self.customEnd()
+                    }
+                    else {
+                        self.end();
+                    }
                 }
             });
 

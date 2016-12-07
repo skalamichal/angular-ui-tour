@@ -55,8 +55,7 @@
             function createOverlayComponent(element) {
                 element.addClass('tour-overlay').css({
                     display: 'none',
-                    zIndex: TourConfig.get('backdropZIndex'),
-                    'pointer-events': 'none'
+                    zIndex: TourConfig.get('backdropZIndex')
                 });
                 $body.append(element);
             }
@@ -148,7 +147,7 @@
                 viewWindow.right.css({
                     position: isFixedElement ? 'fixed' : 'absolute',
                     top: position.top + 'px',
-                    width: Math.max(bodyPosition.left + bodyPosition.width - position.left - position.width,
+                    width: Math.min(bodyPosition.left + bodyPosition.width - position.left - position.width,
                         vw - position.left - position.width) + 'px',
                     height: position.height + 'px',
                     left: (position.left + position.width) + 'px'
